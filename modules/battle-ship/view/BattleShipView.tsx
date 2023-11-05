@@ -2,12 +2,14 @@ import { css } from "@/styled-system/css";
 import { BattleShip } from "../model/BattleShip";
 
 export function BattleShipView({ status }: BattleShip) {
-  return <div className={battleShipStyle} />;
+  return (
+    <svg className={battleShipStyle}>
+      <use href="battle-ship.svg#battle-ship" />
+    </svg>
+  );
 }
 
 const battleShipStyle = css({
   w: "100%",
   h: "100%",
-  rounded: "100%",
-  bg: "red",
 });
