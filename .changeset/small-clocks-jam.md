@@ -2,4 +2,4 @@
 "battle-ship-royale": patch
 ---
 
-#3 BattleShip 모델/뷰 작성
+#6 BattleGround 모델/뷰 작성
