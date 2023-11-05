@@ -6,8 +6,8 @@ export function BattleShipView({ status }: BattleShip) {
 }
 
 const battleShipStyle = css({
-  w: "100px",
-  h: "100px",
+  w: "100%",
+  h: "100%",
   rounded: "100%",
   bg: "red",
 });

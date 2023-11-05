@@ -1,4 +1,20 @@
-import { defineConfig } from "@pandacss/dev";
+import { defineConfig, defineGlobalStyles } from "@pandacss/dev";
+
+const globalCss = defineGlobalStyles({
+  // Global styles go here
+  "*": {
+    boxSizing: "border-box",
+  },
+  html: {
+    height: "100%",
+  },
+  body: {
+    margin: 0,
+    padding: 0,
+    width: "100vw",
+    height: "100%",
+  },
+});
 
 export default defineConfig({
   // Whether to use css reset
@@ -9,6 +25,9 @@ export default defineConfig({
 
   // Files to exclude
   exclude: [],
+
+  // Global styles
+  globalCss,
 
   // Useful for theme customization
   theme: {

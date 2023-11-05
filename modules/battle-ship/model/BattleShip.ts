@@ -1,23 +1,24 @@
+import { Coordinate } from "@/modules/engine/model/Coordinate";
 import { BattleShipStatus } from "../types";
 
 interface BattleShipConstructorOptions {
   maxHealth: number;
-  position: [number, number];
+  coordinate: Coordinate;
 }
 
 export class BattleShip {
   public maxHealth: number;
   public health: number;
   public status: BattleShipStatus;
-  public position: [number, number];
+  public coordinate: Coordinate;
 
   constructor({
     maxHealth = 5,
-    position = [0, 0],
-  }: Partial<BattleShipConstructorOptions>) {
+    coordinate = new Coordinate({ x: 0, y: 0 }),
+  }: Partial<BattleShipConstructorOptions> = {}) {
     this.maxHealth = maxHealth;
     this.health = maxHealth;
     this.status = "alive";
-    this.position = position;
+    this.coordinate = coordinate;
   }
 }

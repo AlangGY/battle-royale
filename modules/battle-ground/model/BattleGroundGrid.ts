@@ -7,7 +7,7 @@ export class BattleGroundGrid {
     this.blocks = BattleGroundGrid.generateBlocks(size);
   }
 
-  get size() {
+  get size(): [number, number] {
     return [this.blocks.length, this.blocks[0].length];
   }
 

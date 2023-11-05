@@ -10,5 +10,5 @@ export default {
 type Story = StoryObj<typeof BattleGroundGridView>;
 
 export const Default: Story = {
-  args: new BattleGroundGrid([5, 5]),
+  args: { model: new BattleGroundGrid([5, 5]) },
 };

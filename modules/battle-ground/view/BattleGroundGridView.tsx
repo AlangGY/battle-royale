@@ -2,21 +2,24 @@ import { css } from "@/styled-system/css";
 import { BattleGroundGrid } from "../model/BattleGroundGrid";
 import { BattleGroundItemView } from "./BattleGroundItemView";
 
-export function BattleGroundGridView({ blocks }: BattleGroundGrid) {
+interface Props {
+  model: BattleGroundGrid;
+}
+
+export function BattleGroundGridView({ model: { blocks } }: Props) {
   const x = blocks[0].length;
   const y = blocks.length;
-  console.log(blocks);
   return (
     <div
       className={battleGroundGridStyle}
       style={{
-        gridTemplateColumns: `repeat(${x}, fit-content(100%))`,
-        gridTemplateRows: `repeat(${y}, fit-content(100%))`,
+        gridTemplateColumns: `repeat(${x}, 1fr)`,
+        gridTemplateRows: `repeat(${y}, 1fr)`,
       }}
     >
       {blocks.map((rows, index) =>
         rows.map((block) => (
-          <BattleGroundItemView key={block.position.join(",")} {...block} />
+          <BattleGroundItemView key={block.position.join(",")} model={block} />
         ))
       )}
     </div>
