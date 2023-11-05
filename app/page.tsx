@@ -8,12 +8,15 @@ export default function Home() {
   const ships = [
     new BattleShip({
       coordinate: new Coordinate({ x: 0, y: 0 }),
+      color: "red",
     }),
     new BattleShip({
       coordinate: new Coordinate({ x: 1, y: 2 }),
+      color: "blue",
     }),
     new BattleShip({
       coordinate: new Coordinate({ x: 2, y: 1 }),
+      color: "green",
     }),
   ];
 
