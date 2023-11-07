@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { ReactiveModel } from "./ReactiveModel";
 
-export const useReactiveModel = <T extends ReactiveModel>(
-  ...instances: T[]
-) => {
+export const useReactiveModel = (...instances: ReactiveModel[]) => {
   const [, forceUpdate] = useState(0);
 
   useEffect(() => {

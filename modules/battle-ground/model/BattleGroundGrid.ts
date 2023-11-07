@@ -1,14 +1,27 @@
+import { ReactiveModel } from "@/modules/reactive-model/ReactiveModel";
 import { BattleGroundItem } from "./BattleGroundItem";
 
-export class BattleGroundGrid {
-  blocks: BattleGroundItem[][];
+export class BattleGroundGrid extends ReactiveModel {
+  blocks: BattleGroundItem[][] = [];
 
   constructor(size: [number, number]) {
-    this.blocks = BattleGroundGrid.generateBlocks(size);
+    super();
+    this.setBlocks(BattleGroundGrid.generateBlocks(size));
   }
 
   get size(): [number, number] {
     return [this.blocks.length, this.blocks[0].length];
+  }
+
+  setSize(size: [number, number]) {
+    this.setBlocks(BattleGroundGrid.generateBlocks(size));
+    this.notify();
+  }
+
+  setBlocks(blocks: BattleGroundItem[][]) {
+    this.blocks = blocks;
+    this.blocks.flat().forEach((block) => this.spreadReactivity(block));
+    this.notify();
   }
 
   private static generateBlocks(size: [number, number]) {

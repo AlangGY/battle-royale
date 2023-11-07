@@ -23,7 +23,7 @@ const ships = [
 ];
 
 export default function Home() {
-  useReactiveModel(...ships);
+  useReactiveModel(...ships, grid);
 
   return (
     <main
