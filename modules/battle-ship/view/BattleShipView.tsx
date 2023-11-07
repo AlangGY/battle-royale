@@ -1,7 +1,11 @@
-import { css, cva } from "@/styled-system/css";
+import { cva } from "@/styled-system/css";
 import { BattleShip } from "../model/BattleShip";
 
-export function BattleShipView({ status, direction, color }: BattleShip) {
+interface Props {
+  model: BattleShip;
+}
+
+export function BattleShipView({ model: { status, direction, color } }: Props) {
   return (
     <svg className={battleShipStyle({ direction })} style={{ color }}>
       <use href="battle-ship.svg#battle-ship" />
