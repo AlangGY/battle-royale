@@ -1,21 +1,22 @@
+import { Coordinate } from "@/modules/engine/model/Coordinate";
 import { ReactiveModel } from "@/modules/reactive-model/ReactiveModel";
 
 interface BattleGroundItemConstructorOptions {
-  position: [number, number];
+  coordinate: Coordinate;
   status: "occupied" | "empty";
 }
 
 export class BattleGroundItem extends ReactiveModel {
-  position: [number, number];
+  coordinate: Coordinate;
   status: "occupied" | "empty";
 
   constructor({
     status = "empty",
-    position = [0, 0],
+    coordinate = new Coordinate({ x: 0, y: 0 }),
   }: Partial<BattleGroundItemConstructorOptions> = {}) {
     super();
     this.status = status;
-    this.position = position;
+    this.coordinate = coordinate;
   }
 
   occupy() {

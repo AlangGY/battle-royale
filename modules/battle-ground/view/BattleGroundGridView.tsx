@@ -19,7 +19,10 @@ export function BattleGroundGridView({ model: { blocks } }: Props) {
     >
       {blocks.map((rows, index) =>
         rows.map((block) => (
-          <BattleGroundItemView key={block.position.join(",")} model={block} />
+          <BattleGroundItemView
+            model={block}
+            key={block.coordinate.toString()}
+          />
         ))
       )}
     </div>
