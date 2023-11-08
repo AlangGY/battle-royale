@@ -18,7 +18,7 @@ export class BattleShip extends ReactiveModel {
   public color: string;
 
   constructor({
-    maxHealth = 5,
+    maxHealth = 1,
     coordinate = new Coordinate({ x: 0, y: 0 }),
     direction = "north",
     color = "blue",
@@ -56,18 +56,26 @@ export class BattleShip extends ReactiveModel {
     }
   }
 
+  hit() {
+    this.health -= 1;
+    this.notify();
+  }
+
   die() {
     this.status = "dead";
     this.notify();
   }
 
   effect() {
+    if (this.status === "alive" && this.health === 0) {
+      this.die();
+    }
     if (
       this.coordinate.x === 2 &&
       this.coordinate.y === 1 &&
       this.status === "alive"
     ) {
-      this.die();
+      this.hit();
     }
   }
 }
