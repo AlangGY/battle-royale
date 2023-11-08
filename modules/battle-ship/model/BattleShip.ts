@@ -55,4 +55,19 @@ export class BattleShip extends ReactiveModel {
       }
     }
   }
+
+  die() {
+    this.status = "dead";
+    this.notify();
+  }
+
+  effect() {
+    if (
+      this.coordinate.x === 2 &&
+      this.coordinate.y === 1 &&
+      this.status === "alive"
+    ) {
+      this.die();
+    }
+  }
 }

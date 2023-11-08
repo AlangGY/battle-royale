@@ -7,7 +7,10 @@ interface Props {
 
 export function BattleShipView({ model: { status, direction, color } }: Props) {
   return (
-    <svg className={battleShipStyle({ direction })} style={{ color }}>
+    <svg
+      className={battleShipStyle({ direction })}
+      style={{ color: status === "alive" ? color : "#000000" }}
+    >
       <use href="battle-ship.svg#battle-ship" />
     </svg>
   );
