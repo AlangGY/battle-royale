@@ -8,13 +8,13 @@ import { BattleShip } from "@/modules/battle-ship/model/BattleShip";
 import { BattleShipView } from "@/modules/battle-ship/view/BattleShipView";
 import { Missile } from "@/modules/missile/model/Missile";
 import { BattleGroundMissileAnimation } from "../view/BattleGroundMissileAnimation";
-import { MissilesQueue } from "@/modules/missile/model/MissilesQueue";
+import { MissileQueue } from "@/modules/engine/model/MissileQueue";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
 
 interface Props {
   grid: BattleGroundGrid;
   ships: BattleShip[];
-  missiles?: MissilesQueue;
+  missiles?: MissileQueue;
   onRequestAttack?: (coordinate: Coordinate) => void;
 }
 

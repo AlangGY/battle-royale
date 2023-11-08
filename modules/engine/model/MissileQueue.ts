@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
 import { ReactiveModel } from "@/modules/reactive-model/ReactiveModel";
-import { Missile } from "./Missile";
+import { Missile } from "../../missile/model/Missile";
 
-export class MissilesQueue extends ReactiveModel {
+export class MissileQueue extends ReactiveModel {
   private missiles: Missile[] = [];
 
   constructor() {
