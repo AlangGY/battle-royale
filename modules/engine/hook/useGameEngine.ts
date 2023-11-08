@@ -4,27 +4,35 @@ import { MissileQueue } from "@/modules/engine/model/MissileQueue";
 import { Coordinate } from "../model/Coordinate";
 import { useReactiveModel } from "@/modules/reactive-model/useReactiveModel";
 import { Missile } from "@/modules/missile/model/Missile";
+import { BattleShipSet } from "../model/BattleShipSet";
 
 const grid = new BattleGroundGrid([5, 5]);
 grid.setActionMode("attack");
 const missileQueue = new MissileQueue();
-const ships = [
+const battleShipSet = new BattleShipSet();
+battleShipSet.addBattleShip(
   new BattleShip({
     coordinate: new Coordinate({ x: 0, y: 0 }),
     color: "red",
-  }),
+  })
+);
+battleShipSet.addBattleShip(
   new BattleShip({
-    coordinate: new Coordinate({ x: 1, y: 2 }),
+    coordinate: new Coordinate({ x: 1, y: 1 }),
     color: "blue",
-  }),
+  })
+);
+battleShipSet.addBattleShip(
   new BattleShip({
-    coordinate: new Coordinate({ x: 2, y: 1 }),
+    coordinate: new Coordinate({ x: 2, y: 2 }),
     color: "green",
-  }),
-];
+  })
+);
 
 export function useGameEngine() {
-  useReactiveModel(...ships, grid, missileQueue);
+  useReactiveModel(battleShipSet, grid, missileQueue);
+
+  const ships = battleShipSet.toArray();
 
   const handleRequestAttack = (coordinate: Coordinate) => {
     const newMissile = new Missile({
@@ -34,7 +42,7 @@ export function useGameEngine() {
     });
 
     newMissile.addEventListener("arrival", (missile) => {
-      const ship = missile.determineBattleShipHit(ships);
+      const ship = missile.determineBattleShipHit(battleShipSet.toArray());
       if (ship) {
         ship.hit();
       }

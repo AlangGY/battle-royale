@@ -6,6 +6,10 @@ export class ReactiveModel extends Publisher {
 
   constructor() {
     super();
+
+    if (this.effect) {
+      this.effect = this.effect.bind(this);
+    }
   }
 
   spreadReactivity(model: ReactiveModel) {
