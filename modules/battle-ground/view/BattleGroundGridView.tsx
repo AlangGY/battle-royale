@@ -13,8 +13,8 @@ export function BattleGroundGridView({ model: { blocks } }: Props) {
     <div
       className={battleGroundGridStyle}
       style={{
-        gridTemplateColumns: `repeat(${x}, 1fr)`,
-        gridTemplateRows: `repeat(${y}, 1fr)`,
+        gridTemplateColumns: `repeat(${y}, 1fr)`,
+        gridTemplateRows: `repeat(${x}, 1fr)`,
       }}
     >
       {blocks.map((rows, index) =>

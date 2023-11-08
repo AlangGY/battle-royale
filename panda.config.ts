@@ -14,6 +14,19 @@ const globalCss = defineGlobalStyles({
     width: "100vw",
     height: "100%",
   },
+  button: {
+    cursor: "pointer",
+    padding: "16px 24px",
+    borderRadius: "8px",
+    border: "none",
+    boxShadow: "0 0 0 1px rgba(0,0,0,0.1)",
+  },
+  input: {
+    padding: "8px 16px",
+    borderRadius: "8px",
+    border: "none",
+    boxShadow: "0 0 0 1px rgba(0,0,0,0.1)",
+  },
 });
 
 export default defineConfig({
