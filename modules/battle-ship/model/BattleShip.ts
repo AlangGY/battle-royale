@@ -70,12 +70,5 @@ export class BattleShip extends ReactiveModel {
     if (this.status === "alive" && this.health === 0) {
       this.die();
     }
-    if (
-      this.coordinate.x === 2 &&
-      this.coordinate.y === 1 &&
-      this.status === "alive"
-    ) {
-      this.hit();
-    }
   }
 }
