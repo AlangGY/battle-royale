@@ -3,6 +3,7 @@ import { useLatest } from "react-use";
 import { Missile } from "@/modules/missile/model/Missile";
 import { MissileView } from "@/modules/missile/view/MissileView";
 import { css } from "@/styled-system/css";
+import { MissileTargetView } from "@/modules/missile/view/MissileTargetView";
 
 interface Props {
   gridSize: [number, number];
@@ -49,9 +50,7 @@ export function BattleGroundMissileAnimation({
         top: `${(100 * startY) / y}%`,
       },
       {
-        transform: `scale(${length / 5}) rotate(${angle + 90}deg)`,
-        left: `${(50 * targetX) / x}%`,
-        top: `${(50 * targetY) / y}%`,
+        transform: `scale(${length / 4}) rotate(${angle + 90}deg)`,
       },
       {
         transform: `scale(1) rotate(${angle + 90}deg)`,
@@ -60,7 +59,7 @@ export function BattleGroundMissileAnimation({
       },
     ];
     const fireOptions = {
-      duration: duration * 500,
+      duration: duration * 800,
       fill: "forwards",
       easing: "ease-in-out",
     } as const;
@@ -74,19 +73,33 @@ export function BattleGroundMissileAnimation({
   }, [startCoordinate, targetCoordinate, x, y, animationEndCbRef]);
 
   return (
-    <div
-      ref={ref}
-      className={missileContainer}
-      style={{
-        width: `${100 / x}%`,
-        height: `${100 / y}%`,
-        left: `${(100 * startCoordinate.x) / x}%`,
-        top: `${(100 * startCoordinate.y) / y}%`,
-      }}
-      onTransitionEnd={onAnimationEnd}
-    >
-      <MissileView model={model} />
-    </div>
+    <>
+      <div
+        ref={ref}
+        className={missileContainer}
+        style={{
+          width: `${100 / x}%`,
+          height: `${100 / y}%`,
+          left: `${(100 * startCoordinate.x) / x}%`,
+          top: `${(100 * startCoordinate.y) / y}%`,
+        }}
+        onTransitionEnd={onAnimationEnd}
+      >
+        <MissileView model={model} />
+      </div>
+      <div
+        className={missileTargetContainer}
+        style={{
+          width: `${100 / x}%`,
+          height: `${100 / y}%`,
+          left: `${(100 * targetCoordinate.x) / x}%`,
+          top: `${(100 * targetCoordinate.y) / y}%`,
+          transform: "scale(0.5)",
+        }}
+      >
+        <MissileTargetView />
+      </div>
+    </>
   );
 }
 
@@ -97,4 +110,8 @@ const missileContainer = css({
   justifyContent: "center",
   padding: "min(1%, 24px)",
   transition: "left 0.5s ease-in, top 0.5s ease-in, transform 0.5s ease-in",
+});
+
+const missileTargetContainer = css({
+  position: "absolute",
 });
