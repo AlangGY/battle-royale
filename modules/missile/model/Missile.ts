@@ -8,6 +8,7 @@ interface MissileConstructorOptions {
 }
 
 export class Missile {
+  id?: string;
   startCoordinate: Coordinate;
   targetCoordinate: Coordinate;
   color: string;

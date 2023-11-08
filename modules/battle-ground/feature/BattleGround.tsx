@@ -6,16 +6,35 @@ import { BattleGroundGridView } from "../view/BattleGroundGridView";
 import { BattleGroundShipLayerView } from "../view/BattleGroundShipLayerView";
 import { BattleShip } from "@/modules/battle-ship/model/BattleShip";
 import { BattleShipView } from "@/modules/battle-ship/view/BattleShipView";
+import { Missile } from "@/modules/missile/model/Missile";
+import { BattleGroundMissileAnimation } from "../view/BattleGroundMissileAnimation";
+import { MissilesQueue } from "@/modules/missile/model/MissilesQueue";
+import { Coordinate } from "@/modules/engine/model/Coordinate";
 
 interface Props {
   grid: BattleGroundGrid;
   ships: BattleShip[];
+  missiles?: MissilesQueue;
+  onRequestAttack?: (coordinate: Coordinate) => void;
 }
 
-export function BattleGround({ grid, ships }: Props) {
+export function BattleGround({
+  grid,
+  ships,
+  missiles,
+  onRequestAttack,
+}: Props) {
+  const handleGridClick = (coordinate: Coordinate) => {
+    switch (grid.actionMode) {
+      case "attack":
+        onRequestAttack?.(coordinate);
+        break;
+    }
+  };
+
   return (
     <div className={battleGroundLayer}>
-      <BattleGroundGridView model={grid} />
+      <BattleGroundGridView model={grid} onClick={handleGridClick} />
       <BattleGroundShipLayerView>
         {ships.map((ship, index) => (
           <BattleGroundShipLayerView.Item
@@ -25,6 +44,16 @@ export function BattleGround({ grid, ships }: Props) {
           >
             <BattleShipView model={ship} />
           </BattleGroundShipLayerView.Item>
+        ))}
+        {missiles?.getMissiles().map((missile, index) => (
+          <BattleGroundMissileAnimation
+            key={missile.id ?? index}
+            gridSize={grid.size}
+            model={missile}
+            onAnimationEnd={() => {
+              missiles.removeMissile(missile);
+            }}
+          />
         ))}
       </BattleGroundShipLayerView>
     </div>

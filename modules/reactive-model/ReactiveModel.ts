@@ -2,6 +2,8 @@ import { Publisher } from "./Publisher";
 
 export class ReactiveModel extends Publisher {
   effect?(): void;
+  id?: string;
+
   constructor() {
     super();
   }

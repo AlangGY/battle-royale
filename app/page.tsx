@@ -11,8 +11,11 @@ import { GridControlView } from "../modules/battle-ground/view/GridControlView";
 import { useGridController } from "../modules/battle-ground/hook/useGridController";
 import { vstack } from "@/styled-system/patterns";
 import { css } from "@/styled-system/css";
+import { MissilesQueue } from "@/modules/missile/model/MissilesQueue";
+import { Missile } from "@/modules/missile/model/Missile";
 
 const grid = new BattleGroundGrid([5, 5]);
+grid.setActionMode("attack");
 const ships = [
   new BattleShip({
     coordinate: new Coordinate({ x: 0, y: 0 }),
@@ -28,12 +31,24 @@ const ships = [
   }),
 ];
 
+const missileQueue = new MissilesQueue();
+
 export default function Home() {
-  useReactiveModel(...ships, grid);
+  useReactiveModel(...ships, grid, missileQueue);
   const { moveDown, moveLeft, moveRight, moveUp } = useShipController({
     ship: ships[0],
     grid,
   });
+
+  const handleRequestAttack = (coordinate: Coordinate) => {
+    missileQueue.addMissile(
+      new Missile({
+        startCoordinate: ships[0].coordinate,
+        targetCoordinate: coordinate,
+        color: "red",
+      })
+    );
+  };
 
   return (
     <main className={vstack()}>
@@ -43,7 +58,12 @@ export default function Home() {
           aspectRatio: "1/1",
         })}
       >
-        <BattleGround grid={grid} ships={ships} />
+        <BattleGround
+          grid={grid}
+          ships={ships}
+          missiles={missileQueue}
+          onRequestAttack={handleRequestAttack}
+        />
       </div>
       <BattleShipControlView
         onDown={moveDown}

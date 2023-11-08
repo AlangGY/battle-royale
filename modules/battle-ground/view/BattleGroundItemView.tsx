@@ -11,13 +11,20 @@ interface Props {
 export function BattleGroundItemView({
   model: { status },
   actionMode = "standby",
+  onClick,
 }: Props) {
-  return <div className={battleGroundItemStyle({ status, actionMode })} />;
+  return (
+    <button
+      className={battleGroundItemStyle({ status, actionMode })}
+      onClick={onClick}
+    />
+  );
 }
 
 const battleGroundItemStyle = cva({
   base: {
     border: "1px solid black",
+    rounded: "0",
     zIndex: 1,
   },
   variants: {

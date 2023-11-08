@@ -38,7 +38,7 @@ export class BattleGroundGrid extends ReactiveModel {
       const row: BattleGroundItem[] = [];
       for (let j = 0; j < size[1]; j++) {
         row.push(
-          new BattleGroundItem({ coordinate: new Coordinate({ x: i, y: j }) })
+          new BattleGroundItem({ coordinate: new Coordinate({ x: j, y: i }) })
         );
       }
       blocks.push(row);
