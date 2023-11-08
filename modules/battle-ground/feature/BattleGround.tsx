@@ -50,9 +50,7 @@ export function BattleGround({
             key={missile.id ?? index}
             gridSize={grid.size}
             model={missile}
-            onAnimationEnd={() => {
-              missiles.removeMissile(missile);
-            }}
+            onAnimationEnd={() => missile.dispatchEvent("arrival")}
           />
         ))}
       </BattleGroundShipLayerView>

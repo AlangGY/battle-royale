@@ -6,6 +6,7 @@ import { useReactiveModel } from "@/modules/reactive-model/useReactiveModel";
 import { Missile } from "@/modules/missile/model/Missile";
 
 const grid = new BattleGroundGrid([5, 5]);
+grid.setActionMode("attack");
 const missileQueue = new MissileQueue();
 const ships = [
   new BattleShip({
@@ -26,13 +27,21 @@ export function useGameEngine() {
   useReactiveModel(...ships, grid, missileQueue);
 
   const handleRequestAttack = (coordinate: Coordinate) => {
-    missileQueue.addMissile(
-      new Missile({
-        startCoordinate: ships[0].coordinate,
-        targetCoordinate: coordinate,
-        color: "red",
-      })
-    );
+    const newMissile = new Missile({
+      startCoordinate: ships[0].coordinate,
+      targetCoordinate: coordinate,
+      color: ships[0].color,
+    });
+
+    newMissile.addEventListener("arrival", (missile) => {
+      const ship = missile.determineBattleShipHit(ships);
+      if (ship) {
+        ship.hit();
+      }
+      missileQueue.removeMissile(missile);
+    });
+
+    missileQueue.addMissile(newMissile);
   };
 
   return {
