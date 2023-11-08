@@ -1,9 +1,11 @@
 import { ReactiveModel } from "@/modules/reactive-model/ReactiveModel";
 import { BattleGroundItem } from "./BattleGroundItem";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
+import { BattleGroundActionMode } from "../types";
 
 export class BattleGroundGrid extends ReactiveModel {
   blocks: BattleGroundItem[][] = [];
+  actionMode: BattleGroundActionMode = "standby";
 
   constructor(size: [number, number]) {
     super();
@@ -22,6 +24,11 @@ export class BattleGroundGrid extends ReactiveModel {
   setBlocks(blocks: BattleGroundItem[][]) {
     this.blocks = blocks;
     this.blocks.flat().forEach((block) => this.spreadReactivity(block));
+    this.notify();
+  }
+
+  setActionMode(actionMode: BattleGroundActionMode) {
+    this.actionMode = actionMode;
     this.notify();
   }
 

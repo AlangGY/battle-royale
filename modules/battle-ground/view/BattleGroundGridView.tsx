@@ -1,12 +1,14 @@
 import { css } from "@/styled-system/css";
 import { BattleGroundGrid } from "../model/BattleGroundGrid";
 import { BattleGroundItemView } from "./BattleGroundItemView";
+import { Coordinate } from "@/modules/engine/model/Coordinate";
 
 interface Props {
   model: BattleGroundGrid;
+  onClick?: (coordinate: Coordinate) => void;
 }
 
-export function BattleGroundGridView({ model: { blocks } }: Props) {
+export function BattleGroundGridView({ model: { blocks, actionMode } }: Props) {
   const x = blocks[0].length;
   const y = blocks.length;
   return (

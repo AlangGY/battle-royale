@@ -11,4 +11,11 @@ type Story = StoryObj<typeof BattleGroundGridView>;
 
 export const Default: Story = {
   args: { model: new BattleGroundGrid([5, 5]) },
+  decorators: [
+    (Story) => (
+      <div style={{ width: "500px", height: "500px" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
