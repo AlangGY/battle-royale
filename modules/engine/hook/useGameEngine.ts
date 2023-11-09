@@ -6,44 +6,48 @@ import { useReactiveModel } from "@/modules/reactive-model/useReactiveModel";
 import { Missile } from "@/modules/missile/model/Missile";
 import { BattleShipSet } from "../model/BattleShipSet";
 import { useShipController } from "@/modules/battle-ship/hook/useShipController";
+import { PlayerSet } from "../model/PlayerSet";
+import { Player } from "@/modules/player/model/Player";
 
 const grid = new BattleGroundGrid([12, 12]);
 grid.setActionMode("move");
 const missileQueue = new MissileQueue();
 const battleShipSet = new BattleShipSet();
-battleShipSet.addBattleShip(
-  new BattleShip({
-    coordinate: new Coordinate({ x: 0, y: 0 }),
-    color: "red",
-  })
-);
-battleShipSet.addBattleShip(
-  new BattleShip({
-    coordinate: new Coordinate({ x: 8, y: 1 }),
-    color: "blue",
-  })
-);
-battleShipSet.addBattleShip(
-  new BattleShip({
-    coordinate: new Coordinate({ x: 5, y: 10 }),
-    color: "green",
-  })
-);
+const playerSet = new PlayerSet();
 
 export function useGameEngine() {
-  useReactiveModel(battleShipSet, grid, missileQueue);
+  useReactiveModel(battleShipSet, grid, missileQueue, playerSet);
+  const ships = battleShipSet.toArray();
+  const myShip = playerSet.getMe()?.battleShip;
   const { moveShip } = useShipController({
-    ship: battleShipSet.toArray()[0],
+    ship: myShip,
     grid,
   });
 
-  const ships = battleShipSet.toArray();
+  const createPlayer = (
+    id: string,
+    name: string,
+    color: string,
+    isMe: boolean = false
+  ) => {
+    if (isMe && playerSet.getMe()) return;
+    const newPlayer = new Player({ id, name, color, isMe });
+    const randomCoordinate = grid.getRandomCoordinate();
+    const newBattleShip = new BattleShip({
+      coordinate: randomCoordinate,
+      color,
+    });
+    newPlayer.setBattleShip(newBattleShip);
+    playerSet.addPlayer(newPlayer);
+    battleShipSet.addBattleShip(newBattleShip);
+  };
 
   const handleRequestAttack = (coordinate: Coordinate) => {
+    if (!myShip) return;
     const newMissile = new Missile({
-      startCoordinate: ships[0].coordinate,
+      startCoordinate: myShip.coordinate,
       targetCoordinate: coordinate,
-      color: ships[0].color,
+      color: myShip.color,
     });
 
     newMissile.addEventListener("arrival", (missile) => {
@@ -65,7 +69,9 @@ export function useGameEngine() {
     grid,
     missileQueue,
     ships,
+    myShip,
     launchMissile: handleRequestAttack,
     moveShip: handleRequestMove,
+    createPlayer,
   };
 }

@@ -5,10 +5,18 @@ import { css } from "@/styled-system/css";
 import { BattleGround } from "@/modules/battle-ground/feature/BattleGround";
 import { GridControlView } from "@/modules/battle-ground/view/GridControlView";
 import { useGameEngine } from "@/modules/engine/hook/useGameEngine";
+import { nanoid } from "nanoid";
 
 export default function Home() {
-  const { grid, ships, missileQueue, launchMissile, moveShip } =
-    useGameEngine();
+  const {
+    grid,
+    ships,
+    myShip,
+    missileQueue,
+    createPlayer,
+    launchMissile,
+    moveShip,
+  } = useGameEngine();
 
   return (
     <main className={vstack()}>
@@ -21,6 +29,7 @@ export default function Home() {
         <BattleGround
           grid={grid}
           ships={ships}
+          myShip={myShip}
           missiles={missileQueue}
           onRequestAttack={launchMissile}
           onRequestMove={moveShip}
@@ -50,6 +59,18 @@ export default function Home() {
           onClick={() => grid.setActionMode("move")}
         >
           Move
+        </button>
+      </div>
+      <div
+        className={flex({
+          gap: 5,
+        })}
+      >
+        <button onClick={() => createPlayer(nanoid(), "Alang", "red", true)}>
+          Create Player(me)
+        </button>
+        <button onClick={() => createPlayer(nanoid(), "Computer", "blue")}>
+          Create Player
         </button>
       </div>
     </main>

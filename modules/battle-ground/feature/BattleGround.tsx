@@ -14,6 +14,7 @@ import { Coordinate } from "@/modules/engine/model/Coordinate";
 interface Props {
   grid: BattleGroundGrid;
   ships: BattleShip[];
+  myShip?: BattleShip;
   missiles?: MissileQueue;
   onRequestAttack?: (coordinate: Coordinate) => void;
   onRequestMove?: (coordinate: Coordinate) => void;
@@ -22,6 +23,7 @@ interface Props {
 export function BattleGround({
   grid,
   ships,
+  myShip,
   missiles,
   onRequestAttack,
   onRequestMove,
@@ -40,7 +42,7 @@ export function BattleGround({
     <div className={battleGroundLayer}>
       <BattleGroundGridView
         model={grid}
-        myBattleShip={ships[0]}
+        myBattleShip={myShip}
         onClick={handleGridClick}
       />
       <BattleGroundShipLayerView>
