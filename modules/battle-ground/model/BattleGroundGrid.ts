@@ -47,9 +47,11 @@ export class BattleGroundGrid extends ReactiveModel {
     return blocks;
   }
 
-  getRandomCoordinate() {
-    const x = Math.floor(Math.random() * this.size[0]);
-    const y = Math.floor(Math.random() * this.size[1]);
-    return new Coordinate({ x, y });
+  getRandomCoordinate(ignore: Coordinate[] = []) {
+    const availableBlocks = this.blocks
+      .flat()
+      .filter((block) => !ignore.includes(block.coordinate));
+    const randomIndex = Math.floor(Math.random() * availableBlocks.length);
+    return availableBlocks[randomIndex].coordinate;
   }
 }

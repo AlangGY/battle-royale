@@ -32,7 +32,9 @@ export function useGameEngine() {
   ) => {
     if (isMe && playerSet.getMe()) return;
     const newPlayer = new Player({ id, name, color, isMe });
-    const randomCoordinate = grid.getRandomCoordinate();
+    const randomCoordinate = grid.getRandomCoordinate(
+      battleShipSet.toArray().map((ship) => ship.coordinate)
+    );
     const newBattleShip = new BattleShip({
       coordinate: randomCoordinate,
       color,
