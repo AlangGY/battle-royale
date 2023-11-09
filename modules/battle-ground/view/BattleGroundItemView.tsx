@@ -42,6 +42,7 @@ const battleGroundItemStyle = cva({
       },
       attack: {
         cursor: "pointer",
+        bg: "rgba(255, 0, 0, 0.05)",
         _hover: {
           bg: "rgba(255, 0, 0, 0.3)",
         },
@@ -51,6 +52,7 @@ const battleGroundItemStyle = cva({
       },
       move: {
         cursor: "pointer",
+        bg: "rgba(0, 0, 255, 0.05)",
         _hover: {
           bg: "rgba(0, 0, 255, 0.3)",
         },
