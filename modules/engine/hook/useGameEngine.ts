@@ -5,9 +5,10 @@ import { Coordinate } from "../model/Coordinate";
 import { useReactiveModel } from "@/modules/reactive-model/useReactiveModel";
 import { Missile } from "@/modules/missile/model/Missile";
 import { BattleShipSet } from "../model/BattleShipSet";
+import { useShipController } from "@/modules/battle-ship/hook/useShipController";
 
 const grid = new BattleGroundGrid([5, 5]);
-grid.setActionMode("attack");
+grid.setActionMode("move");
 const missileQueue = new MissileQueue();
 const battleShipSet = new BattleShipSet();
 battleShipSet.addBattleShip(
@@ -31,6 +32,10 @@ battleShipSet.addBattleShip(
 
 export function useGameEngine() {
   useReactiveModel(battleShipSet, grid, missileQueue);
+  const { moveShip } = useShipController({
+    ship: battleShipSet.toArray()[0],
+    grid,
+  });
 
   const ships = battleShipSet.toArray();
 
@@ -52,10 +57,15 @@ export function useGameEngine() {
     missileQueue.addMissile(newMissile);
   };
 
+  const handleRequestMove = (coordinate: Coordinate) => {
+    moveShip(coordinate);
+  };
+
   return {
     grid,
     missileQueue,
     ships,
     launchMissile: handleRequestAttack,
+    moveShip: handleRequestMove,
   };
 }

@@ -16,6 +16,7 @@ interface Props {
   ships: BattleShip[];
   missiles?: MissileQueue;
   onRequestAttack?: (coordinate: Coordinate) => void;
+  onRequestMove?: (coordinate: Coordinate) => void;
 }
 
 export function BattleGround({
@@ -23,12 +24,15 @@ export function BattleGround({
   ships,
   missiles,
   onRequestAttack,
+  onRequestMove,
 }: Props) {
   const handleGridClick = (coordinate: Coordinate) => {
     switch (grid.actionMode) {
       case "attack":
         onRequestAttack?.(coordinate);
         break;
+      case "move":
+        onRequestMove?.(coordinate);
     }
   };
 

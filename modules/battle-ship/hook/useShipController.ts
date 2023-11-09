@@ -15,9 +15,9 @@ export function useShipController({ ship, grid }: Props) {
     return x >= 0 && x < xWidth && y >= 0 && y < yWidth;
   };
 
-  const moveShip = (x: number, y: number) => {
-    if (!isShipInGrid(x, y)) return;
-    ship.move(new Coordinate({ x, y }));
+  const moveShip = (coordinate: Coordinate) => {
+    if (!isShipInGrid(coordinate.x, coordinate.y)) return;
+    ship.move(coordinate);
   };
 
   const moveLeft = () => {
