@@ -1,18 +1,122 @@
-import { cva } from "@/styled-system/css";
+import { css, cva } from "@/styled-system/css";
 import { BattleShip } from "../model/BattleShip";
+import { useCallback, useEffect, useRef } from "react";
+import { container } from "@/styled-system/patterns";
 
 interface Props {
   model: BattleShip;
 }
 
 export function BattleShipView({ model: { status, direction, color } }: Props) {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const animateFloating = useCallback(
+    (element: HTMLDivElement) => {
+      const isVertical = () => {
+        switch (direction) {
+          case "north":
+          case "south":
+            return true;
+          default:
+            return false;
+        }
+      };
+
+      const translate = isVertical() ? "translateX" : "translateY";
+
+      const floatingKeyframes = [
+        { transform: `${translate}(0)` },
+        { transform: `${translate}(-5px)` },
+        { transform: `${translate}(0)` },
+        { transform: `${translate}(5px)` },
+        { transform: `${translate}(0)` },
+      ];
+
+      const floatingOptions = {
+        duration: 5000,
+        iterations: Infinity,
+        easing: "ease",
+      } as const;
+
+      return element.animate(floatingKeyframes, floatingOptions);
+    },
+    [direction]
+  );
+
+  const animateDead = useCallback(
+    (element: HTMLDivElement) => {
+      const isVertical = () => {
+        switch (direction) {
+          case "north":
+          case "south":
+            return true;
+          default:
+            return false;
+        }
+      };
+
+      const sinkDirection = () => {
+        switch (direction) {
+          case "north":
+          case "west":
+          case "east":
+            return 1;
+          case "south":
+            return -1;
+        }
+      };
+
+      const translate = isVertical() ? "translateX" : "translateY";
+
+      const deadKeyframes = [
+        { transform: `${translate}(0)` },
+        { transform: `${translate}(${sinkDirection() * 50}%)`, opacity: 0 },
+      ];
+
+      const deadOptions = {
+        duration: 1000,
+        fill: "forwards",
+        easing: "ease",
+      } as const;
+
+      return element.animate(deadKeyframes, deadOptions);
+    },
+    [direction]
+  );
+
+  useEffect(() => {
+    const { current: element } = ref;
+    if (!element) return;
+    let animation: Animation;
+    switch (status) {
+      case "alive":
+        animation = animateFloating(element);
+        break;
+      case "dead":
+        animation = animateDead(element);
+        break;
+    }
+
+    return () => {
+      animation.cancel();
+    };
+  }, [animateDead, animateFloating, status]);
+
   return (
-    <svg
-      className={battleShipStyle({ direction })}
-      style={{ color: status === "alive" ? color : "#000000" }}
+    <div
+      ref={ref}
+      className={css({
+        w: "100%",
+        h: "100%",
+      })}
     >
-      <use href="battle-ship.svg#battle-ship" />
-    </svg>
+      <svg
+        className={battleShipStyle({ direction })}
+        style={{ color: status === "alive" ? color : "#000000" }}
+      >
+        <use href="battle-ship.svg#battle-ship" />
+      </svg>
+    </div>
   );
 }
 
