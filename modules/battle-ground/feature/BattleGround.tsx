@@ -38,7 +38,11 @@ export function BattleGround({
 
   return (
     <div className={battleGroundLayer}>
-      <BattleGroundGridView model={grid} onClick={handleGridClick} />
+      <BattleGroundGridView
+        model={grid}
+        myBattleShip={ships[0]}
+        onClick={handleGridClick}
+      />
       <BattleGroundShipLayerView>
         {ships.map((ship, index) => (
           <BattleGroundShipLayerView.Item

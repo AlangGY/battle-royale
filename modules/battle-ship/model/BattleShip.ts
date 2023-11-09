@@ -15,6 +15,7 @@ export class BattleShip extends ReactiveModel {
   public status: BattleShipStatus;
   public coordinate: Coordinate;
   public direction: BattleShipDirection;
+  public moveRange: number = 3;
   public color: string;
 
   constructor({
@@ -70,5 +71,14 @@ export class BattleShip extends ReactiveModel {
     if (this.status === "alive" && this.health === 0) {
       this.die();
     }
+  }
+
+  isMovableCoordinate(coordinate: Coordinate): boolean {
+    const { x, y } = this.coordinate;
+    const { x: nextX, y: nextY } = coordinate;
+    return (
+      !this.coordinate.isSame(coordinate) &&
+      Math.abs(nextX - x) + Math.abs(nextY - y) <= this.moveRange
+    );
   }
 }

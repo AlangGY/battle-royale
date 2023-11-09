@@ -16,6 +16,7 @@ export function BattleGroundItemView({
   return (
     <button
       className={battleGroundItemStyle({ status, actionMode })}
+      disabled={actionMode === "standby"}
       onClick={onClick}
     />
   );

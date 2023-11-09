@@ -3,14 +3,17 @@ import { BattleGroundGrid } from "../model/BattleGroundGrid";
 import { BattleGroundItemView } from "./BattleGroundItemView";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
 import { on } from "events";
+import { BattleShip } from "@/modules/battle-ship/model/BattleShip";
 
 interface Props {
   model: BattleGroundGrid;
+  myBattleShip?: BattleShip;
   onClick?: (coordinate: Coordinate) => void;
 }
 
 export function BattleGroundGridView({
   model: { blocks, actionMode },
+  myBattleShip,
   onClick,
 }: Props) {
   const x = blocks[0].length;
@@ -29,7 +32,13 @@ export function BattleGroundGridView({
           <BattleGroundItemView
             model={block}
             key={block.coordinate.toString()}
-            actionMode={actionMode}
+            actionMode={
+              actionMode === "move"
+                ? myBattleShip?.isMovableCoordinate(block.coordinate)
+                  ? "move"
+                  : "standby"
+                : actionMode
+            }
             onClick={() => {
               onClick?.(block.coordinate);
             }}

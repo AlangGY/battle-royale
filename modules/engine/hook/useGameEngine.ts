@@ -7,7 +7,7 @@ import { Missile } from "@/modules/missile/model/Missile";
 import { BattleShipSet } from "../model/BattleShipSet";
 import { useShipController } from "@/modules/battle-ship/hook/useShipController";
 
-const grid = new BattleGroundGrid([5, 5]);
+const grid = new BattleGroundGrid([12, 12]);
 grid.setActionMode("move");
 const missileQueue = new MissileQueue();
 const battleShipSet = new BattleShipSet();
@@ -19,13 +19,13 @@ battleShipSet.addBattleShip(
 );
 battleShipSet.addBattleShip(
   new BattleShip({
-    coordinate: new Coordinate({ x: 1, y: 1 }),
+    coordinate: new Coordinate({ x: 8, y: 1 }),
     color: "blue",
   })
 );
 battleShipSet.addBattleShip(
   new BattleShip({
-    coordinate: new Coordinate({ x: 2, y: 2 }),
+    coordinate: new Coordinate({ x: 5, y: 10 }),
     color: "green",
   })
 );

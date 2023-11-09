@@ -1,6 +1,6 @@
 "use client";
 
-import { vstack } from "@/styled-system/patterns";
+import { flex, vstack } from "@/styled-system/patterns";
 import { css } from "@/styled-system/css";
 import { BattleGround } from "@/modules/battle-ground/feature/BattleGround";
 import { GridControlView } from "@/modules/battle-ground/view/GridControlView";
@@ -14,7 +14,7 @@ export default function Home() {
     <main className={vstack()}>
       <div
         className={css({
-          height: "60vh",
+          height: "80vh",
           aspectRatio: "1/1",
         })}
       >
@@ -26,20 +26,31 @@ export default function Home() {
           onRequestMove={moveShip}
         />
       </div>
-
-      <GridControlView
-        width={grid.size[0]}
-        height={grid.size[1]}
-        onHeightChange={(h) => {
-          grid.setSize([grid.size[0], h]);
-        }}
-        onWidthChange={(w) => {
-          grid.setSize([w, grid.size[1]]);
-        }}
-      />
-      <div>
-        <button onClick={() => grid.setActionMode("attack")}>Attack</button>
-        <button onClick={() => grid.setActionMode("move")}>Move</button>
+      <div
+        className={flex({
+          gap: 5,
+        })}
+      >
+        <button
+          style={{
+            backgroundColor:
+              grid.actionMode === "attack"
+                ? "rgba(255,0,0,0.6)"
+                : "transparent",
+          }}
+          onClick={() => grid.setActionMode("attack")}
+        >
+          Attack
+        </button>
+        <button
+          style={{
+            backgroundColor:
+              grid.actionMode === "move" ? "rgba(0,0,255,0.6)" : "transparent",
+          }}
+          onClick={() => grid.setActionMode("move")}
+        >
+          Move
+        </button>
       </div>
     </main>
   );
