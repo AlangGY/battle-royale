@@ -51,5 +51,5 @@ const battleGroundShipLayerItemStyle = css({
   alignItems: "center",
   justifyContent: "center",
   padding: "min(1%, 24px)",
-  transition: "left 0.3s ease-in-out, top 0.3s ease-in-out",
+  transition: "left 1s ease-in-out, top 1s ease-in-out",
 });

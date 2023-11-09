@@ -54,4 +54,6 @@ const battleGroundGridStyle = css({
   gap: "2px",
   w: "100%",
   h: "100%",
+  backgroundColor: "#fefefe",
+  backgroundImage: "linear-gradient(315deg, #fefefe 0%, #00a4e4 74%)",
 });

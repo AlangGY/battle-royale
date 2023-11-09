@@ -24,9 +24,9 @@ export function BattleGroundItemView({
 
 const battleGroundItemStyle = cva({
   base: {
-    border: "1px solid black",
     rounded: "0",
     zIndex: 1,
+    boxShadow: "1px 1px 1px rgba(0, 0, 0, 0.1)",
   },
   variants: {
     status: {
@@ -43,7 +43,7 @@ const battleGroundItemStyle = cva({
       },
       attack: {
         cursor: "pointer",
-        bg: "rgba(255, 0, 0, 0.05)",
+        bg: "rgba(255, 0, 0, 0.1)",
         _hover: {
           bg: "rgba(255, 0, 0, 0.3)",
         },
@@ -53,7 +53,7 @@ const battleGroundItemStyle = cva({
       },
       move: {
         cursor: "pointer",
-        bg: "rgba(0, 0, 255, 0.05)",
+        bg: "rgba(0, 0, 255, 0.1)",
         _hover: {
           bg: "rgba(0, 0, 255, 0.3)",
         },

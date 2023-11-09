@@ -21,7 +21,7 @@ export class BattleShip extends ReactiveModel {
   constructor({
     maxHealth = 1,
     coordinate = new Coordinate({ x: 0, y: 0 }),
-    direction = "north",
+    direction = "east",
     color = "blue",
   }: Partial<BattleShipConstructorOptions> = {}) {
     super();
