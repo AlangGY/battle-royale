@@ -10,10 +10,11 @@ import { Missile } from "@/modules/missile/model/Missile";
 import { BattleGroundMissileAnimation } from "../view/BattleGroundMissileAnimation";
 import { MissileQueue } from "@/modules/engine/model/MissileQueue";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
+import { BattleShipSet } from "@/modules/engine/model/BattleShipSet";
 
 interface Props {
   grid: BattleGroundGrid;
-  ships: BattleShip[];
+  ships: BattleShipSet;
   myShip?: BattleShip;
   missiles?: MissileQueue;
   onRequestAttack?: (coordinate: Coordinate) => void;
@@ -46,13 +47,16 @@ export function BattleGround({
         onClick={handleGridClick}
       />
       <BattleGroundShipLayerView>
-        {ships.map((ship, index) => (
+        {ships.toArray().map((ship, index) => (
           <BattleGroundShipLayerView.Item
-            key={index}
+            key={ship.id ?? index}
             gridSize={grid.size}
             coordinate={ship.coordinate}
           >
-            <BattleShipView model={ship} />
+            <BattleShipView
+              model={ship}
+              onDeadAnimationEnd={() => ships.removeBattleShip(ship)}
+            />
           </BattleGroundShipLayerView.Item>
         ))}
         {missiles?.getMissiles().map((missile, index) => (

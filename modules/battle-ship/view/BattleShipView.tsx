@@ -2,13 +2,19 @@ import { css, cva } from "@/styled-system/css";
 import { BattleShip } from "../model/BattleShip";
 import { useCallback, useEffect, useRef } from "react";
 import { container } from "@/styled-system/patterns";
+import { useLatest } from "react-use";
 
 interface Props {
   model: BattleShip;
+  onDeadAnimationEnd?: () => void;
 }
 
-export function BattleShipView({ model: { status, direction, color } }: Props) {
+export function BattleShipView({
+  model: { status, direction, color },
+  onDeadAnimationEnd,
+}: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const onDeadAnimationEndCbRef = useLatest(onDeadAnimationEnd);
 
   const animateFloating = useCallback(
     (element: HTMLDivElement) => {
@@ -94,13 +100,14 @@ export function BattleShipView({ model: { status, direction, color } }: Props) {
         break;
       case "dead":
         animation = animateDead(element);
+        animation.onfinish = onDeadAnimationEndCbRef.current ?? null;
         break;
     }
 
     return () => {
       animation.cancel();
     };
-  }, [animateDead, animateFloating, status]);
+  }, [animateDead, animateFloating, status, onDeadAnimationEndCbRef]);
 
   return (
     <div

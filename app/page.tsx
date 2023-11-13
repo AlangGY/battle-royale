@@ -10,7 +10,7 @@ import { nanoid } from "nanoid";
 export default function Home() {
   const {
     grid,
-    ships,
+    battleShipSet,
     myShip,
     missileQueue,
     createPlayer,
@@ -28,7 +28,7 @@ export default function Home() {
       >
         <BattleGround
           grid={grid}
-          ships={ships}
+          ships={battleShipSet}
           myShip={myShip}
           missiles={missileQueue}
           onRequestAttack={launchMissile}

@@ -64,12 +64,19 @@ export function BattleGroundMissileAnimation({
       easing: "ease-in-out",
     } as const;
 
+    let rotateAnimation: Animation;
+    let fireAnimation: Animation;
     requestAnimationFrame(() => {
-      element.animate(rotateKeyframes, rotationOptions).onfinish = () => {
-        element.animate(fireKeyframes, fireOptions).onfinish =
-          animationEndCbRef.current ?? null;
+      rotateAnimation = element.animate(rotateKeyframes, rotationOptions);
+      rotateAnimation.onfinish = () => {
+        fireAnimation = element.animate(fireKeyframes, fireOptions);
+        fireAnimation.onfinish = animationEndCbRef.current ?? null;
       };
     });
+    return () => {
+      rotateAnimation?.cancel();
+      fireAnimation?.cancel();
+    };
   }, [startCoordinate, targetCoordinate, x, y, animationEndCbRef]);
 
   return (

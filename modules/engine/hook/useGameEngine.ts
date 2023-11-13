@@ -17,7 +17,6 @@ const playerSet = new PlayerSet();
 
 export function useGameEngine() {
   useReactiveModel(battleShipSet, grid, missileQueue, playerSet);
-  const ships = battleShipSet.toArray();
   const myShip = playerSet.getMe()?.battleShip;
   const { moveShip } = useShipController({
     ship: myShip,
@@ -70,7 +69,7 @@ export function useGameEngine() {
   return {
     grid,
     missileQueue,
-    ships,
+    battleShipSet,
     myShip,
     launchMissile: handleRequestAttack,
     moveShip: handleRequestMove,

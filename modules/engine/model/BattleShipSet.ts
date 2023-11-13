@@ -1,5 +1,6 @@
 import { BattleShip } from "@/modules/battle-ship/model/BattleShip";
 import { ReactiveModel } from "@/modules/reactive-model/ReactiveModel";
+import { nanoid } from "nanoid";
 
 export class BattleShipSet extends ReactiveModel {
   private battleShips: Set<BattleShip> = new Set();
@@ -13,6 +14,7 @@ export class BattleShipSet extends ReactiveModel {
   }
 
   addBattleShip(battleShip: BattleShip) {
+    battleShip.id = nanoid();
     this.battleShips.add(battleShip);
     this.spreadReactivity(battleShip);
     this.notify();
@@ -36,7 +38,9 @@ export class BattleShipSet extends ReactiveModel {
     return this.toArray().find((battleShip) => battleShip.id === id);
   }
 
-  effect(): void {
-    this.getBattleShips().forEach((battleShip) => battleShip.effect?.());
+  effect() {
+    this.toArray().forEach((battleShip) => {
+      battleShip.effect?.();
+    });
   }
 }

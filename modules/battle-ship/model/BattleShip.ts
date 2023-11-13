@@ -68,7 +68,7 @@ export class BattleShip extends ReactiveModel {
   }
 
   effect() {
-    if (this.status === "alive" && this.health === 0) {
+    if (this.status === "alive" && this.health <= 0) {
       this.die();
     }
   }
