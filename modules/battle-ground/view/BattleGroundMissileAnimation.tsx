@@ -29,7 +29,7 @@ export function BattleGroundMissileAnimation({
     const deltaX = targetX - startX;
     const deltaY = targetY - startY;
     const angle = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
-    const velocity = Math.sqrt(deltaX ** 2 + deltaY ** 2) * 2;
+    const velocity = Math.sqrt(deltaX ** 2 + deltaY ** 2) * 5;
     const length = Math.sqrt(x ** 2 + y ** 2);
     const duration = velocity / length;
 

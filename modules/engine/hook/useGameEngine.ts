@@ -6,49 +6,47 @@ import { useReactiveModel } from "@/modules/reactive-model/useReactiveModel";
 import { Missile } from "@/modules/missile/model/Missile";
 import { BattleShipSet } from "../model/BattleShipSet";
 import { useShipController } from "@/modules/battle-ship/hook/useShipController";
-import { PlayerSet } from "../model/PlayerSet";
 import { Player } from "@/modules/player/model/Player";
+import { GameRoom } from "@/modules/game-room/model/GameRoom";
+import { RoundAction } from "@/modules/action/RoundAction";
+import { useState } from "react";
 
 const grid = new BattleGroundGrid([12, 12]);
 grid.setActionMode("move");
 const missileQueue = new MissileQueue();
 const battleShipSet = new BattleShipSet();
-const playerSet = new PlayerSet();
 
-export function useGameEngine() {
-  useReactiveModel(battleShipSet, grid, missileQueue, playerSet);
-  const myShip = playerSet.getMe()?.battleShip;
+interface Props {
+  gameRoom: GameRoom;
+}
+
+export function useGameEngine({ gameRoom: { players } }: Props) {
+  useReactiveModel(battleShipSet, grid, missileQueue);
+  const [controlPlayer, setControlPlayer] = useState<Player | null>(null);
   const { moveShip } = useShipController({
-    ship: myShip,
     grid,
   });
 
-  const createPlayer = (
-    id: string,
-    name: string,
-    color: string,
-    isMe: boolean = false
-  ) => {
-    if (isMe && playerSet.getMe()) return;
-    const newPlayer = new Player({ id, name, color, isMe });
+  const createBattleShipForPlayer = (player: Player) => {
+    if (player.isMe && players.getMe()) return;
+
     const randomCoordinate = grid.getRandomCoordinate(
       battleShipSet.toArray().map((ship) => ship.coordinate)
     );
     const newBattleShip = new BattleShip({
       coordinate: randomCoordinate,
-      color,
+      color: player.color,
     });
-    newPlayer.setBattleShip(newBattleShip);
-    playerSet.addPlayer(newPlayer);
+    player.setBattleShip(newBattleShip);
     battleShipSet.addBattleShip(newBattleShip);
   };
 
-  const handleRequestAttack = (coordinate: Coordinate) => {
-    if (!myShip) return;
+  const handleRequestAttack = (ship: BattleShip, coordinate: Coordinate) => {
+    if (!ship) return;
     const newMissile = new Missile({
-      startCoordinate: myShip.coordinate,
+      startCoordinate: ship.coordinate,
       targetCoordinate: coordinate,
-      color: myShip.color,
+      color: ship.color,
     });
 
     newMissile.addEventListener("arrival", (missile) => {
@@ -62,17 +60,28 @@ export function useGameEngine() {
     missileQueue.addMissile(newMissile);
   };
 
-  const handleRequestMove = (coordinate: Coordinate) => {
-    moveShip(coordinate);
+  const handleRequestMove = (ship: BattleShip, coordinate: Coordinate) => {
+    moveShip(ship, coordinate);
+  };
+
+  const handleRoundAction = (action: RoundAction) => {
+    const ship = action.payload.player.battleShip;
+    const coordinate = action.payload.coordinate;
+    if (!ship) return;
+    if (action.type === "move") {
+      handleRequestMove(ship, coordinate);
+    } else {
+      handleRequestAttack(ship, coordinate);
+    }
   };
 
   return {
     grid,
     missileQueue,
     battleShipSet,
-    myShip,
-    launchMissile: handleRequestAttack,
-    moveShip: handleRequestMove,
-    createPlayer,
+    handleRoundAction,
+    createBattleShipForPlayer,
+    setControlPlayer,
+    controlPlayer,
   };
 }

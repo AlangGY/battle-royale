@@ -20,6 +20,12 @@ const globalCss = defineGlobalStyles({
     borderRadius: "8px",
     border: "none",
     boxShadow: "0 0 0 1px rgba(0,0,0,0.1)",
+    _hover: {
+      boxShadow: "0 0 0 1px rgba(0,0,0,0.2)",
+    },
+    _active: {
+      boxShadow: "0 0 0 1px rgba(0,0,0,0.3)",
+    },
   },
   input: {
     padding: "8px 16px",

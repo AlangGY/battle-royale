@@ -3,11 +3,10 @@ import { BattleShip } from "@/modules/battle-ship/model/BattleShip";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
 
 interface Props {
-  ship?: BattleShip | null;
   grid: BattleGroundGrid;
 }
 
-export function useShipController({ ship, grid }: Props) {
+export function useShipController({ grid }: Props) {
   const { size } = grid;
   const [xWidth, yWidth] = size;
 
@@ -15,7 +14,7 @@ export function useShipController({ ship, grid }: Props) {
     return x >= 0 && x < xWidth && y >= 0 && y < yWidth;
   };
 
-  const moveShip = (coordinate: Coordinate) => {
+  const moveShip = (ship: BattleShip | null, coordinate: Coordinate) => {
     if (!ship) return;
     if (!isShipInGrid(coordinate.x, coordinate.y)) return;
     ship.move(coordinate);

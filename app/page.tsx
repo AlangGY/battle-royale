@@ -3,20 +3,62 @@
 import { flex, vstack } from "@/styled-system/patterns";
 import { css } from "@/styled-system/css";
 import { BattleGround } from "@/modules/battle-ground/feature/BattleGround";
-import { GridControlView } from "@/modules/battle-ground/view/GridControlView";
 import { useGameEngine } from "@/modules/engine/hook/useGameEngine";
 import { nanoid } from "nanoid";
+import { GameRoom } from "@/modules/game-room/model/GameRoom";
+import { useReactiveModel } from "@/modules/reactive-model/useReactiveModel";
+import { StartScene } from "@/modules/scene/StartScene";
+import { Player } from "@/modules/player/model/Player";
+import { Coordinate } from "@/modules/engine/model/Coordinate";
+import { RoundAction } from "@/modules/action/RoundAction";
+
+const gameRoom = new GameRoom();
 
 export default function Home() {
+  useReactiveModel(gameRoom);
   const {
     grid,
     battleShipSet,
-    myShip,
     missileQueue,
-    createPlayer,
-    launchMissile,
-    moveShip,
-  } = useGameEngine();
+    handleRoundAction,
+    createBattleShipForPlayer,
+    controlPlayer,
+    setControlPlayer,
+  } = useGameEngine({ gameRoom });
+
+  // if (gameRoom.status === "waiting") {
+  //   return <StartScene onGameStart={gameRoom.start} />;
+  // }
+
+  const handleRequestAttack = (coordinate: Coordinate) => {
+    if (!controlPlayer) return;
+    gameRoom.playStatus.enqueueRoundAction(
+      new RoundAction("attack", {
+        player: controlPlayer,
+        coordinate,
+      })
+    );
+  };
+
+  const handleRequestMove = (coordinate: Coordinate) => {
+    if (!controlPlayer) return;
+    gameRoom.playStatus.enqueueRoundAction(
+      new RoundAction("move", {
+        player: controlPlayer,
+        coordinate,
+      })
+    );
+  };
+
+  const handleAction = () => {
+    const roundActionQueue = gameRoom.playStatus.roundActionQueue;
+    while (roundActionQueue.length > 0) {
+      const roundAction = roundActionQueue.shift();
+      if (roundAction) {
+        handleRoundAction(roundAction);
+      }
+    }
+  };
 
   return (
     <main className={vstack()}>
@@ -29,10 +71,10 @@ export default function Home() {
         <BattleGround
           grid={grid}
           ships={battleShipSet}
-          myShip={myShip}
+          myShip={controlPlayer?.battleShip}
           missiles={missileQueue}
-          onRequestAttack={launchMissile}
-          onRequestMove={moveShip}
+          onRequestAttack={handleRequestAttack}
+          onRequestMove={handleRequestMove}
         />
       </div>
       <div
@@ -60,17 +102,48 @@ export default function Home() {
         >
           Move
         </button>
+        <button onClick={handleAction}>Action</button>
       </div>
       <div
         className={flex({
           gap: 5,
         })}
       >
-        <button onClick={() => createPlayer(nanoid(), "Alang", "red", true)}>
+        <button
+          onClick={() => {
+            if (gameRoom.players.getMe()) return;
+            const player = new Player({
+              id: nanoid(),
+              name: "Alang",
+              color: "red",
+              isMe: true,
+            });
+            createBattleShipForPlayer(player);
+            gameRoom.players.addPlayer(player);
+          }}
+        >
           Create Player(me)
         </button>
-        <button onClick={() => createPlayer(nanoid(), "Computer", "blue")}>
+        <button
+          onClick={() => {
+            const player = new Player({
+              id: nanoid(),
+              name: "Computer",
+              color: "blue",
+            });
+            createBattleShipForPlayer(player);
+            gameRoom.players.addPlayer(player);
+          }}
+        >
           Create Player
+        </button>
+        <button onClick={() => setControlPlayer(gameRoom.players.getMe()!)}>
+          Set Control Ship (Me)
+        </button>
+        <button
+          onClick={() => setControlPlayer([...gameRoom.players.players][1])}
+        >
+          Set Control Ship (Computer)
         </button>
       </div>
     </main>
