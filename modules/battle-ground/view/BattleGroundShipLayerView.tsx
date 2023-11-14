@@ -21,10 +21,14 @@ function BattleGroundShipLayerItem({
   children,
   gridSize,
   coordinate,
+  label,
+  labelColor,
 }: {
   children: React.ReactNode;
   gridSize: [number, number];
   coordinate: Coordinate;
+  label?: string;
+  labelColor?: string;
 }) {
   const [x, y] = gridSize;
 
@@ -38,6 +42,11 @@ function BattleGroundShipLayerItem({
         top: `${(100 * coordinate.y) / y}%`,
       }}
     >
+      {label && (
+        <span style={{ color: labelColor ?? "white" }} className={labelStyle}>
+          {label}
+        </span>
+      )}
       {children}
     </div>
   );
@@ -59,4 +68,13 @@ const battleGroundShipLayerItemStyle = css({
   justifyContent: "center",
   padding: "min(1%, 24px)",
   transition: "left 1s ease-in-out, top 1s ease-in-out",
+});
+
+const labelStyle = css({
+  position: "absolute",
+  top: "0",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  fontSize: "1em",
+  fontWeight: "bold",
 });

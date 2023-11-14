@@ -68,6 +68,8 @@ export function BattleGround({
               key={ship.id ?? index}
               gridSize={grid.size}
               coordinate={ship.coordinate}
+              label={ship.owner.name}
+              labelColor={ship.color}
             >
               <BattleShipView
                 model={ship}

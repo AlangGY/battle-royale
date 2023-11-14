@@ -35,9 +35,10 @@ export function useGameEngine({ gameRoom: { players } }: Props) {
     );
     const newBattleShip = new BattleShip({
       coordinate: randomCoordinate,
-      color: player.color,
+      owner: player,
     });
     player.setBattleShip(newBattleShip);
+
     battleShipSet.addBattleShip(newBattleShip);
   };
 
