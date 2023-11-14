@@ -4,6 +4,8 @@ import { BattleGroundItemView } from "./BattleGroundItemView";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
 import { on } from "events";
 import { BattleShip } from "@/modules/battle-ship/model/BattleShip";
+import { BattleGroundItem } from "../model/BattleGroundItem";
+import { BattleGroundActionMode } from "../types";
 
 interface Props {
   model: BattleGroundGrid;
@@ -19,6 +21,20 @@ export function BattleGroundGridView({
   const x = blocks[0].length;
   const y = blocks.length;
 
+  const actionModeForBlock = (
+    block: BattleGroundItem
+  ): BattleGroundActionMode => {
+    if (!myBattleShip) return "standby";
+    if (actionMode === "move") {
+      return myBattleShip.isMovableCoordinate(block.coordinate)
+        ? "move"
+        : "standby";
+    }
+    return !myBattleShip.coordinate.isSame(block.coordinate)
+      ? "attack"
+      : "standby";
+  };
+
   return (
     <div
       className={battleGroundGridStyle}
@@ -32,13 +48,7 @@ export function BattleGroundGridView({
           <BattleGroundItemView
             model={block}
             key={block.coordinate.toString()}
-            actionMode={
-              actionMode === "move"
-                ? myBattleShip?.isMovableCoordinate(block.coordinate)
-                  ? "move"
-                  : "standby"
-                : actionMode
-            }
+            actionMode={actionModeForBlock(block)}
             onClick={() => {
               onClick?.(block.coordinate);
             }}
