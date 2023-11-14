@@ -46,7 +46,7 @@ export function useGameEngine({ gameRoom: { players } }: Props) {
     const newMissile = new Missile({
       startCoordinate: ship.coordinate,
       targetCoordinate: coordinate,
-      color: ship.color,
+      owner: ship,
     });
 
     newMissile.addEventListener("arrival", (missile) => {

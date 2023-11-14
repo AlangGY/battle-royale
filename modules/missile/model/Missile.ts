@@ -4,13 +4,14 @@ import { Coordinate } from "@/modules/engine/model/Coordinate";
 interface MissileConstructorOptions {
   startCoordinate: Coordinate;
   targetCoordinate: Coordinate;
-  color: string;
+  owner: BattleShip;
 }
 
 type MissileEventName = "arrival";
 
 export class Missile {
   id?: string;
+  owner: BattleShip;
   startCoordinate: Coordinate;
   targetCoordinate: Coordinate;
   color: string;
@@ -19,11 +20,12 @@ export class Missile {
   constructor({
     startCoordinate,
     targetCoordinate,
-    color,
+    owner,
   }: MissileConstructorOptions) {
     this.startCoordinate = startCoordinate;
     this.targetCoordinate = targetCoordinate;
-    this.color = color;
+    this.owner = owner;
+    this.color = owner.color;
 
     this.dispatchEvent = this.dispatchEvent.bind(this);
   }
