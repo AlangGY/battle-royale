@@ -6,7 +6,6 @@ import { BattleGroundGridView } from "../view/BattleGroundGridView";
 import { BattleGroundShipLayerView } from "../view/BattleGroundShipLayerView";
 import { BattleShip } from "@/modules/battle-ship/model/BattleShip";
 import { BattleShipView } from "@/modules/battle-ship/view/BattleShipView";
-import { Missile } from "@/modules/missile/model/Missile";
 import { BattleGroundMissileAnimation } from "../view/BattleGroundMissileAnimation";
 import { MissileQueue } from "@/modules/engine/model/MissileQueue";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
@@ -39,6 +38,14 @@ export function BattleGround({
     }
   };
 
+  const clipPathForViewRange =
+    myShip &&
+    `ellipse(${(100 / grid.size[0]) * (myShip.viewRange + 0.5)}% ${
+      (100 / grid.size[1]) * (myShip.viewRange + 0.5)
+    }% at ${(100 / grid.size[0]) * (myShip.coordinate.x + 0.5)}% ${
+      (100 / grid.size[1]) * (myShip.coordinate.y + 0.5)
+    }%)`;
+
   return (
     <div className={battleGroundLayer}>
       <BattleGroundGridView
@@ -46,7 +53,7 @@ export function BattleGround({
         myBattleShip={myShip}
         onClick={handleGridClick}
       />
-      <BattleGroundShipLayerView>
+      <BattleGroundShipLayerView clipPath={clipPathForViewRange}>
         {ships.toArray().map((ship, index) => (
           <BattleGroundShipLayerView.Item
             key={ship.id ?? index}

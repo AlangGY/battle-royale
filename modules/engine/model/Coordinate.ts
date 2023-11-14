@@ -19,4 +19,8 @@ export class Coordinate {
   isSame(coordinate: Coordinate) {
     return this.x === coordinate.x && this.y === coordinate.y;
   }
+
+  distanceTo(coordinate: Coordinate) {
+    return Math.abs(this.x - coordinate.x) + Math.abs(this.y - coordinate.y);
+  }
 }

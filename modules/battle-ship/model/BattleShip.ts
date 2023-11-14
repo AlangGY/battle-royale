@@ -16,6 +16,7 @@ export class BattleShip extends ReactiveModel {
   public coordinate: Coordinate;
   public direction: BattleShipDirection;
   public moveRange: number = 3;
+  public viewRange: number = 3;
   public color: string;
 
   constructor({
