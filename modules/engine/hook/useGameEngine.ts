@@ -11,7 +11,7 @@ import { GameRoom } from "@/modules/game-room/model/GameRoom";
 import { RoundAction } from "@/modules/action/RoundAction";
 import { useState } from "react";
 
-const grid = new BattleGroundGrid([20, 20]);
+const grid = new BattleGroundGrid([12, 12]);
 grid.setActionMode("move");
 const missileQueue = new MissileQueue();
 const battleShipSet = new BattleShipSet();

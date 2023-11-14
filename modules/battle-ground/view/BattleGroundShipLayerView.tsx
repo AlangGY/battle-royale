@@ -3,12 +3,13 @@ import { css } from "@/styled-system/css";
 
 interface Props {
   children: React.ReactNode;
+  style?: React.CSSProperties;
   clipPath?: string;
 }
 
-export function BattleGroundShipLayerView({ children, clipPath }: Props) {
+export function BattleGroundShipLayerView({ children, style }: Props) {
   return (
-    <div style={{ clipPath }} className={battleGroundShipLayerStyle}>
+    <div style={style} className={battleGroundShipLayerStyle}>
       {children}
     </div>
   );
@@ -49,7 +50,6 @@ const battleGroundShipLayerStyle = css({
   top: "0",
   left: "0",
   transition: "clip-path 1s ease-in-out",
-  bg: "rgba(255, 255, 255, 0.2)",
 });
 
 const battleGroundShipLayerItemStyle = css({

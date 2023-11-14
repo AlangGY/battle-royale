@@ -53,27 +53,77 @@ export function BattleGround({
         myBattleShip={myShip}
         onClick={handleGridClick}
       />
-      <BattleGroundShipLayerView clipPath={clipPathForViewRange}>
-        {ships.toArray().map((ship, index) => (
-          <BattleGroundShipLayerView.Item
-            key={ship.id ?? index}
-            gridSize={grid.size}
-            coordinate={ship.coordinate}
-          >
-            <BattleShipView
-              model={ship}
-              onDeadAnimationEnd={() => ships.removeBattleShip(ship)}
+      {/* Visible only inside ViewRange Layer */}
+      <BattleGroundShipLayerView
+        style={{
+          clipPath: clipPathForViewRange,
+          backgroundColor: "rgba(255,255,255,0.2)",
+        }}
+      >
+        {ships
+          .toArray()
+          .filter((ship) => ship.status !== "dead")
+          .map((ship, index) => (
+            <BattleGroundShipLayerView.Item
+              key={ship.id ?? index}
+              gridSize={grid.size}
+              coordinate={ship.coordinate}
+            >
+              <BattleShipView
+                model={ship}
+                onDeadAnimationEnd={() => ships.removeBattleShip(ship)}
+              />
+            </BattleGroundShipLayerView.Item>
+          ))}
+        {missiles
+          ?.getMissiles()
+          .filter((missile) => missile.owner !== myShip)
+          .map((missile, index) => (
+            <BattleGroundMissileAnimation
+              key={missile.id ?? index}
+              gridSize={grid.size}
+              model={missile}
+              onAnimationEnd={() => missile.dispatchEvent("arrival")}
             />
-          </BattleGroundShipLayerView.Item>
-        ))}
-        {missiles?.getMissiles().map((missile, index) => (
-          <BattleGroundMissileAnimation
-            key={missile.id ?? index}
-            gridSize={grid.size}
-            model={missile}
-            onAnimationEnd={() => missile.dispatchEvent("arrival")}
-          />
-        ))}
+          ))}
+      </BattleGroundShipLayerView>
+      {/* always Visible Layer */}
+      <BattleGroundShipLayerView>
+        {ships
+          .toArray()
+          .filter(
+            (ship) =>
+              ship.status === "dead" ||
+              missiles
+                ?.getMissiles()
+                .filter((missile) => missile.owner === myShip)
+                .some((missile) =>
+                  missile.targetCoordinate.isSame(ship.coordinate)
+                )
+          )
+          .map((ship, index) => (
+            <BattleGroundShipLayerView.Item
+              key={ship.id ?? index}
+              gridSize={grid.size}
+              coordinate={ship.coordinate}
+            >
+              <BattleShipView
+                model={ship}
+                onDeadAnimationEnd={() => ships.removeBattleShip(ship)}
+              />
+            </BattleGroundShipLayerView.Item>
+          ))}
+        {missiles
+          ?.getMissiles()
+          .filter((missile) => missile.owner === myShip)
+          .map((missile, index) => (
+            <BattleGroundMissileAnimation
+              key={missile.id ?? index}
+              gridSize={grid.size}
+              model={missile}
+              onAnimationEnd={() => missile.dispatchEvent("arrival")}
+            />
+          ))}
       </BattleGroundShipLayerView>
     </div>
   );
