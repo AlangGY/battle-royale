@@ -11,6 +11,7 @@ import { StartScene } from "@/modules/scene/StartScene";
 import { Player } from "@/modules/player/model/Player";
 import { Coordinate } from "@/modules/engine/model/Coordinate";
 import { RoundAction } from "@/modules/action/RoundAction";
+import { randomHexColor } from "@/modules/util/randomColor";
 
 const gameRoom = new GameRoom();
 
@@ -115,7 +116,7 @@ export default function Home() {
             const player = new Player({
               id: nanoid(),
               name: "Alang",
-              color: "red",
+              color: randomHexColor(),
               isMe: true,
             });
             createBattleShipForPlayer(player);
@@ -129,7 +130,7 @@ export default function Home() {
             const player = new Player({
               id: nanoid(),
               name: "Computer",
-              color: "blue",
+              color: randomHexColor(),
             });
             createBattleShipForPlayer(player);
             gameRoom.players.addPlayer(player);
