@@ -53,12 +53,16 @@ export default function Home() {
 
   const handleAction = () => {
     const roundActionQueue = gameRoom.playStatus.roundActionQueue;
-    while (roundActionQueue.length > 0) {
+    const intervalId = setInterval(() => {
+      if (roundActionQueue.length === 0) {
+        clearInterval(intervalId);
+        return;
+      }
       const roundAction = roundActionQueue.shift();
       if (roundAction) {
         handleRoundAction(roundAction);
       }
-    }
+    }, 200);
   };
 
   return (

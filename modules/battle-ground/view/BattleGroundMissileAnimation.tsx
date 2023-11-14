@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
-import { useLatest } from "react-use";
+import { useEffectOnce, useLatest } from "react-use";
 import { Missile } from "@/modules/missile/model/Missile";
 import { MissileView } from "@/modules/missile/view/MissileView";
 import { css } from "@/styled-system/css";
@@ -69,8 +69,12 @@ export function BattleGroundMissileAnimation({
     requestAnimationFrame(() => {
       rotateAnimation = element.animate(rotateKeyframes, rotationOptions);
       rotateAnimation.onfinish = () => {
+        new Audio("missile-blast.mp3").play();
         fireAnimation = element.animate(fireKeyframes, fireOptions);
-        fireAnimation.onfinish = animationEndCbRef.current ?? null;
+        fireAnimation.onfinish = () => {
+          new Audio("missile-boom.mp3").play();
+          animationEndCbRef.current?.();
+        };
       };
     });
     return () => {

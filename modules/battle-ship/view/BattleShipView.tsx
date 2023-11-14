@@ -99,8 +99,11 @@ export function BattleShipView({
         animation = animateFloating(element);
         break;
       case "dead":
+        new Audio("battle-ship-destroy.mp3").play();
         animation = animateDead(element);
-        animation.onfinish = onDeadAnimationEndCbRef.current ?? null;
+        animation.onfinish = () => {
+          onDeadAnimationEndCbRef.current?.();
+        };
         break;
     }
 
