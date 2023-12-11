@@ -13,6 +13,7 @@
     "version-package": "changeset version"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
     "nanoid": "^5.0.3",
     "next": "14.0.1",
     "react": "^18",
