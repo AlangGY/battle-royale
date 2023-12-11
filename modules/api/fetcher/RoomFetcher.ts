@@ -1,4 +1,7 @@
-import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
+import {
+  REALTIME_POSTGRES_CHANGES_LISTEN_EVENT,
+  RealtimePostgresChangesPayload,
+} from "@supabase/supabase-js";
 import supabaseClient from "../SupabaseClient";
 import { RoomResponse } from "../schemas";
 

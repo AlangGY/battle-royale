@@ -5,7 +5,7 @@ import { css } from "@/styled-system/css";
 import { BattleGround } from "@/modules/battle-ground/feature/BattleGround";
 import { useGameEngine } from "@/modules/engine/hook/useGameEngine";
 import { nanoid } from "nanoid";
-import { GameRoom } from "@/modules/game-room/model/GameRoom";
+import { GameRoom } from "@/modules/game-room/viewModel/GameRoom";
 import { useReactiveModel } from "@/modules/reactive-model/useReactiveModel";
 import { Player } from "@/modules/player/model/Player";
 import { Coordinate } from "@/modules/engine/model/Coordinate";

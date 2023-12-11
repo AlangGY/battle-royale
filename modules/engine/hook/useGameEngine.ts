@@ -7,7 +7,7 @@ import { Missile } from "@/modules/missile/model/Missile";
 import { BattleShipSet } from "../model/BattleShipSet";
 import { useShipController } from "@/modules/battle-ship/hook/useShipController";
 import { Player } from "@/modules/player/model/Player";
-import { GameRoom } from "@/modules/game-room/model/GameRoom";
+import { GameRoom } from "@/modules/game-room/viewModel/GameRoom";
 import { RoundAction } from "@/modules/action/RoundAction";
 import { useState } from "react";
 
