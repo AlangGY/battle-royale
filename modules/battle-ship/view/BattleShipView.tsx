@@ -1,7 +1,6 @@
 import { css, cva } from "@/styled-system/css";
 import { BattleShip } from "../model/BattleShip";
 import { useCallback, useEffect, useRef } from "react";
-import { container } from "@/styled-system/patterns";
 import { useLatest } from "react-use";
 
 interface Props {
@@ -99,7 +98,7 @@ export function BattleShipView({
         animation = animateFloating(element);
         break;
       case "dead":
-        new Audio("battle-ship-destroy.mp3").play();
+        new Audio("/battle-ship-destroy.mp3").play();
         animation = animateDead(element);
         animation.onfinish = () => {
           onDeadAnimationEndCbRef.current?.();
@@ -124,7 +123,7 @@ export function BattleShipView({
         className={battleShipStyle({ direction })}
         style={{ color: status === "alive" ? color : "#000000" }}
       >
-        <use href="battle-ship.svg#battle-ship" />
+        <use href="/battle-ship.svg#battle-ship" />
       </svg>
     </div>
   );

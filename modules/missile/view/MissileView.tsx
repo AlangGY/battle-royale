@@ -1,6 +1,5 @@
 import { css } from "@/styled-system/css";
 import { Missile } from "../model/Missile";
-import { useEffect } from "react";
 
 interface Props {
   model: Missile;
@@ -9,7 +8,7 @@ interface Props {
 export function MissileView({ model }: Props) {
   return (
     <svg className={missileStyle} style={{ color: model.color }}>
-      <use href="missile.svg#missile" />
+      <use href="/missile.svg#missile" />
     </svg>
   );
 }

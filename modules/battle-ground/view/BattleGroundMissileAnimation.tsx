@@ -69,10 +69,10 @@ export function BattleGroundMissileAnimation({
     requestAnimationFrame(() => {
       rotateAnimation = element.animate(rotateKeyframes, rotationOptions);
       rotateAnimation.onfinish = () => {
-        new Audio("missile-blast.mp3").play();
+        new Audio("/missile-blast.mp3").play();
         fireAnimation = element.animate(fireKeyframes, fireOptions);
         fireAnimation.onfinish = () => {
-          new Audio("missile-boom.mp3").play();
+          new Audio("/missile-boom.mp3").play();
           animationEndCbRef.current?.();
         };
       };
