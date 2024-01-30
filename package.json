@@ -1,6 +1,6 @@
 {
   "name": "battle-ship-royale",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "prepare": "panda codegen",
