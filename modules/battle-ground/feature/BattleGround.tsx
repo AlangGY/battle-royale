@@ -65,7 +65,7 @@ export function BattleGround({
           .filter((ship) => ship.status !== "dead")
           .map((ship, index) => (
             <BattleGroundShipLayerView.Item
-              key={ship.id ?? index}
+              key={ship.owner.id ?? index}
               gridSize={grid.size}
               coordinate={ship.coordinate}
               label={ship.owner.name}
@@ -105,7 +105,7 @@ export function BattleGround({
           )
           .map((ship, index) => (
             <BattleGroundShipLayerView.Item
-              key={ship.id ?? index}
+              key={ship.owner.id ?? index}
               gridSize={grid.size}
               coordinate={ship.coordinate}
             >

@@ -14,7 +14,6 @@ export class BattleShipSet extends ReactiveModel {
   }
 
   addBattleShip(battleShip: BattleShip) {
-    battleShip.id = nanoid();
     this.battleShips.add(battleShip);
     this.spreadReactivity(battleShip);
     this.notify();
@@ -32,10 +31,6 @@ export class BattleShipSet extends ReactiveModel {
 
   toArray() {
     return Array.from(this.battleShips.values());
-  }
-
-  getBattleShipById(id: string) {
-    return this.toArray().find((battleShip) => battleShip.id === id);
   }
 
   effect() {
